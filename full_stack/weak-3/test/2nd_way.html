@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text">
+    <button onclick="on()">addtodo</button>
+    <script>
+        function  on(){
+            const  a  =  document.querySelector("input")
+            const  value = a.value//abtracting  value inside the inpute box
+            
+            // const i=newele.innerHTML=value
+            const span=document.createElement("span")
+            const  buttonel=document.createElement("button")
+           
+            span.innerHTML=value
+            buttonel.innerHTML="delete"
+
+            const  newele=document.createElement("div")
+            newele.appendChild(span)
+            newele.appendChild(buttonel)
+            document.querySelector("body").appendChild(newele)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #item-1{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="content">
+            <div id="item-1" >
+                <h1>
+                    hello i am  nikhil
+                </h1>
+                <button onclick="on(1)" >delete</button>
+            </div>
+            <div id="item-2" style="display: flex;" >
+                <h1 >
+                    hello  i am  hitesh
+                </h1>
+                <button onclick="on(2)" >delete</button>
+            </div>
+            <input type="text" placeholder="enter">
+        </div>
+    </div>
+    <script>
+        function on(index){
+         const a  = document.getElementById("item-"+index)
+         a.parentNode.removeChild(a)
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+    <div id="content">
+        <h4>
+            hey
+        </h4>
+    </div>
+<input type="text" placeholder="enter">
+<button onclick="btn">add todo</button>
+    </div>
+    <script>
+        var count = 0
+        function btn(){
+            const a  = document.querySelector("h4").innerHTML=count
+            console.log(a)
+            count = count + 1
+        }
+        setInterval(btn,1000)
+    </script>
+</body>
+</html>
+
+
+

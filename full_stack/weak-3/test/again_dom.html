@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text">
+        <button onclick="on()">addtodo</button>
+    </div>
+    <script>
+        var  ctr= 0
+        function  on(){
+            const a = document.querySelector("input")
+            const value = a.value
+           
+          const newel=document.createElement("div")
+          newel.setAttribute("id",ctr)
+          const r = newel.innerHTML="<div>"+value+'</div><button id="i" onclick="o('+ctr+')"">delete</div>'
+            ctr=ctr+1
+          document.querySelector("body").appendChild(newel)
+            // alert("hiii")
+        }
+        function o(index){
+            const  a  = document.getElementById(index)
+            const  parent = a.parentNode
+            parent.removeChild(a)
+        }
+    </script>
+</body>
+</html>

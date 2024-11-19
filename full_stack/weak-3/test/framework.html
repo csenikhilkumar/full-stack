@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text">
+    <button onclick="addto()">addtodo</button>
+    <button onclick="deletefirst()">delete first</button>
+    <button onclick="deletelast()">delete second last</button>
+    <div id="todos"></div>
+    <script>
+        let todo=[];//we are create a array
+          function addto(){
+          todo.push({//push the object into empty array
+            title:document.querySelector("input").value //extract its value and string which is persents inside the input box
+        })
+        render()//that  is use for render and upate the display 
+          }
+          function deletefirst(){
+            todo.splice(0,1)
+            render()
+          }
+          function deletelast(){
+            todo.splice(-1,1)
+            render()
+           
+          }
+        // setInterval(function(){
+        //     todo.push({
+        //         title:Math.random()
+        //     })
+        //     render()
+        // },2000)
+      
+//this process or react  does reconsiliate 
+          function render(){
+            const di=document.getElementById("todos").innerHTML="" //that is use for clear the screen while i am clicking the addtodo button
+            for(let i = 0;i<todo.length;i++){// ye loop todo ke sare elements to unke index ke hisab se run display  krta hai
+            const t =todo[i]
+            // const ele=document.querySelector("input")
+            // const value = ele.value
+            const div = document.createElement("div")
+            const newele=document.createElement("h1")
+            const dele=document.createElement("button")
+            newele.innerHTML=t.title
+            dele.innerHTML="delete"
+           dele.onclick=function(){
+            todo.splice(i, 1)
+            render()
+           }
+             div.append(newele)
+             div.append(dele)
+             document.querySelector("#todos").appendChild(div)
+            //  console.log("hello")
+            //  alert("ben")
+            }
+            
+          }
+
+
+    </script>
+</body>
+</html>

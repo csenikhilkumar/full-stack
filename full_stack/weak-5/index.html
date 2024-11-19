@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    linkdin
+    <div id="posts">
+    </div>
+    <script>
+      async function getrecentpost(){
+// fatch the  data from localhost:3000 port that is currently run on server on browser
+    const response=  await fetch("http://localhost:3000/",{method:"get"})
+    const data = await response.json();//this is used for converting fechted data into json data
+    console.log(data)  
+    console.log(document.getElementById("posts").innerHTML=data.body)
+      } 
+      getrecentpost();    
+    </script>
+</body>
+</html>

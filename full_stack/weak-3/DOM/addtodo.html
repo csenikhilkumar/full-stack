@@ -1,0 +1,28 @@
+<html>
+<body>
+<input type="text">
+<button onclick="insert()">add todo</button>
+
+</body>
+<script>
+    let ctr =1
+function insert(){
+const ele1 = document.querySelector("input")
+const value = ele1.value
+
+const newel= document.createElement("div")
+newel.setAttribute("id",ctr)
+newel.innerHTML="<div>" + value +'</div><button  onclick="n('+ ctr +')">delete</button>'
+
+document.querySelector("body").appendChild(newel)
+ctr=ctr+1
+
+}
+function n(index){
+const delet = document.getElementById(index)
+const parent =delet.parentNode
+parent.removeChild(delet)
+}
+
+</script>
+</html>

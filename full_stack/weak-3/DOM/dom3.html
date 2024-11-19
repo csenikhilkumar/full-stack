@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #btn{
+            color:green;
+            background-color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h4>1.hii  how can  i  help  you  please tell  me something</h4>
+        <h4>2.tell  me your  name       i  will  store your  data in  server  and my file </h4>
+        <input type="text" placeholder="add todo  here">
+        <button id="btn" onclick="addtodo">Add Todo</button>
+    </div>
+    <script>function addtodo(){
+
+        const n = document.querySelector("input")
+        const b = n.value
+        console.log(b)
+    }
+    </script>
+</body>
+</html>

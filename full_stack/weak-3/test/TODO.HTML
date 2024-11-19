@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+
+        
+        <input type="text">
+        <button id="i" onclick="on()">add to do</button>
+    </div>
+    
+    <script>
+        ctr = 1
+        function on(){
+
+        const  a  = document.querySelector("input")
+        const value = a.value
+        console.log(value)
+        const newel = document.createElement("div")
+        newel.setAttribute("id",ctr)
+        const v = newel.innerHTML="<div>"+value+'</div><button onclick="hi('+ctr+')"">delete</botton>'
+        ctr=ctr+1
+        document.querySelector("body").appendChild(newel)
+        
+}
+function hi(index){
+    const  a  = document.getElementById(index)
+    a.parentNode.removeChild(a)
+}
+
+
+    </script>
+</body>
+</html>
