@@ -3,7 +3,7 @@ const app = express()
 app.use(express.json())
 const cors = require("cors")
 app.use(cors())
-app.post("/sum",function(req,res){
+app.get("/sum",function(req,res){
     const a = req.body.a
     const b = req.body.b
     res.json({
