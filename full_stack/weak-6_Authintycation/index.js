@@ -46,6 +46,20 @@ app.post("/signin",function(req,res){
     }
     console.log(users)
 })
+
+app.get("/me", (req, res) => {
+    const token = req.headers.token;
+    const user = users.find(user => user.token === token);
+    if (user) {
+        res.send({
+            username: user.username
+        })
+    } else {
+        res.status(401).send({
+            message: "Unauthorized"
+        })
+    }
+})
 app.listen(3000,function(){
     console.log("your server is running on port 3000")
 })

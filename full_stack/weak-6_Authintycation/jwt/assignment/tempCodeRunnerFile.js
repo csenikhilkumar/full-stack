@@ -1,0 +1,1 @@
+ // res.json({"msg":"you redirect to the sign page"})
