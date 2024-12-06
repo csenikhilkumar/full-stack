@@ -60,6 +60,24 @@ app.post("/signin",function(req,res){
     
 })
 
+app.get("/me", (req, res) => {
+    const token = req.headers.token;
+    const decodeinformation=jwt.verify(token,jwt_secrate)
+    const username=decodeinformation.username
+   const user =users.find(user=>user.username==username)
+    if (user) {
+        res.send({
+            username: user.username,
+            password:user.password
+        })
+    } else {
+        res.status(401).send({
+            message: "Unauthorized"
+        })
+    }
+    console.log(users)
+})
+
 app.listen(3000,function(){
     console.log("server is running on port 3000")
 })
