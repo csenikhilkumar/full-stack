@@ -1,0 +1,44 @@
+
+
+<head>
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script>
+        async function signup() {
+            const username =document.getElementById("sigup-username").value
+            const password =document.getElementById("signup-password").value
+            await axios.post("http://localhost:3000/signup",{
+                username:username,
+                password:password
+            })
+            alert("you are successfully signed-up")
+            
+        }
+
+        async function signin() {
+            const username =document.getElementById("signin-username").value
+            const password =document.getElementById("signin-password").value
+            await axios.post("http://localhost:3000/signin",{
+                username:username,
+                password:password
+            })
+            alert("you are successfully signed-in")
+            
+        }
+    </script>
+</head>
+<body>
+    <div>
+        signup
+        <input id="sigup-username" type="text" name="username" placeholder="username">
+        <input  id="signup-password" name="password" placeholder="password">
+        <button onclick="signup()">login</button>
+    </div>
+    <div>
+        signup
+        <input id="signin-username" type="text" name="username" placeholder="username">
+        <input  id="signin-password" name="password" placeholder="password">
+        <button onclick="signin()">login</button>
+    </div>
+</body>
+</html>
