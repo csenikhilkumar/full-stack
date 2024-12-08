@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express();
 const cors=require("cors")
+const path = require('path');
 const jwt = require("jsonwebtoken")
 const jwt_secrate="nikhilkumar"
 app.use(express.json())
@@ -20,6 +21,13 @@ function auth(req,res,next){
         })
     }
 }
+
+
+app.get('/', (req, res) => {
+    const filePath = path.join(__dirname, 'index.html');
+    res.sendFile(filePath);
+});
+
 app.post("/signup",function(req,res){
     const username = req.body.username
     const password = req.body.password
@@ -74,12 +82,6 @@ app.get("/me",auth,function(req,res){
                 username:foundUser.username,
                 password:foundUser.password
             })
-        
-    
-   
-    
-   
-    
 })
 
 app.listen(3000,function(){

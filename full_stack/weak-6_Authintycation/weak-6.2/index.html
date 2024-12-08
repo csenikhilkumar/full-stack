@@ -11,18 +11,32 @@
                 username:username,
                 password:password
             })
+           
             alert("you are successfully signed-up")
             
         }
+        async function getinformation(){
+            const response = await axios.get("http://localhost:3000/me",{
+                Headers:{
+                    token:localStorage.getItem("token")
+                }
+            })
+
+        document.getElementById("information").innerHTML="username :"+response.data.username + "password :"+response.data.password
+        }
+        getinformation()
 
         async function signin() {
             const username =document.getElementById("signin-username").value
             const password =document.getElementById("signin-password").value
-            await axios.post("http://localhost:3000/signin",{
+           const response= await axios.post("http://localhost:3000/signin",{
                 username:username,
                 password:password
             })
+            // alert("you are successfully signed-in")
+            localStorage.setItem("token",response.data.token)
             alert("you are successfully signed-in")
+            
             
         }
     </script>
@@ -35,10 +49,15 @@
         <button onclick="signup()">login</button>
     </div>
     <div>
-        signup
+        signin
         <input id="signin-username" type="text" name="username" placeholder="username">
         <input  id="signin-password" name="password" placeholder="password">
         <button onclick="signin()">login</button>
+    </div>
+    <div>
+        user information:
+        <div id="information"></div>
+        <button  onclick="">logout</button>
     </div>
 </body>
 </html>
