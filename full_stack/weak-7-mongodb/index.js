@@ -67,20 +67,32 @@ app.post("/signin",async function(req,res){
 
 })
 
-app.post("/todo",auth,function(req,res){
+app.post("/todo",auth, async function(req,res){
 
     const userId=req.userId
+    const todos =await todomodel.create({
+    description:"hii i am nikhil",
+    userId ,
+    })
     res.json({
-        userId:userId
+        "massage":"todos created "
     })
 
 })
 
-app.get("/todos",auth,function(req,res){
+app.get("/todos",auth, async function(req,res){
     const userId=req.userId
-    res.json({
-        userId:userId
+    const todo =await todomodel.findOne({
+        userId
     })
+    if (todo){
+    res.json({
+        todo
+    })
+    }
+    else{
+        res.status(403).json("invalid todo")
+    }
 })
 
 app.listen(3000,function(){
