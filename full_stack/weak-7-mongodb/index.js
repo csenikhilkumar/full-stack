@@ -1,5 +1,7 @@
 const express =require("express")
+const {z}=require("zod")
 const jwt =require("jsonwebtoken");
+const brypt =require("bcrypt")
 const mongoose=require("mongoose")
 const jwt_secrete ="helloiam"
 mongoose.connect("mongodb+srv://admin:7fegnJGsBAVLeCoh@cluster0.t9tqw.mongodb.net/users-1626")
@@ -23,37 +25,56 @@ function auth(req,res,next){
 }
 
 app.post("/signup",async function(req,res){
+    const requirebody =await z.object({
+        email:z.string().min(2).max(100).email(),
+        usermodel:z.string().min(3).max(100),
+        password:z.string().min(2).max(15)
+    });
+    const parsedatawithsucess=requirebody.safeParse(req.body)
+    if(!parsedatawithsucess.success){
+        res.json({massage:"incorrect format",
+            error:parsedatawithsucess.error
+        })
+        return
+    }
+   
     const email =req.body.email;
     const password=req.body.password;
     const username =req.body.username;
+    const hashedPassword = await brypt.hash(password,5)
+    console.log(hashedPassword)
     await usermodel.create({
         email:email,
-        password:password,
+        password:hashedPassword,
         username:username
     })
-
     res.json({
         "massage":"you are signed-up"
     })
-
 })
 
 app.post("/signin",async function(req,res){
     const email =req.body.email;
     const password=req.body.password;
     const username =req.body.username;
-    const user = await usermodel.findOne({
+    const response = await usermodel.findOne({
         email:email,
-        password:password,
-        usrname:username
+        
     })
+    if(!response){
+        res.status(404).json({
+            massage:"user not exists"
+        })
+    }
 
-    if(user){
+    const passwordMatch = await brypt.compare(password,response.password)
+
+    if(passwordMatch){
         console.log({
-            id:user._id.toString()
+            id:response._id.toString()
         })
         const token =jwt.sign({
-            id:user._id.toString()
+            id:response._id.toString()
         },jwt_secrete)
         res.json({
            token:token

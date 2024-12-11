@@ -70,7 +70,7 @@ app.post("/todos",auth,async function(req,res){
     userId
  })
 res.json({
-    massage:"i am nikhil"
+    massage:"todo is succesfully created "
 })
 })
 

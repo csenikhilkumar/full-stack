@@ -3,7 +3,7 @@ const userId =mongoose.userId
 // const { String, boolean } = require("zod");
 const schema =mongoose.Schema;
 const user = new schema({
-    email:String,
+    email:{ type: String, required: true, unique: true },
     password:String,
     username:String
 })
