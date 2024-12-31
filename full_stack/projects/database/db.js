@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 // console.log("connect to")
-mongoose.connect("mongodb+srv://admin:7fegnJGsBAVLeCoh@cluster0.t9tqw.mongodb.net/coursera-app")
+// mongoose.connect("mongodb+srv://admin:7fegnJGsBAVLeCoh@cluster0.t9tqw.mongodb.net/coursera-app")
 const { object, number, string } = require("zod");
 const Schema =mongoose.Schema;
 const ObjectId =mongoose.Types.ObjectId;
