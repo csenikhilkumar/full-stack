@@ -5,8 +5,9 @@ const {z}=require("zod")
 const bcrypt = require("bcrypt")
 const jwt=require("jsonwebtoken")
 // const {usersModel,courseModel,adminModel,purchagesModel}=require("./database/db")
-const { adminModel} = require("../database/db");
-const jwt_secrate ="iamnikhil"
+const {jwt_secrate}=require("../config")
+const {adminAuthmiddle}=require("../middlewares/admin_auth")
+const { adminModel, courseModel} = require("../database/db");
 const adminRouter=Router()
 
 
@@ -47,12 +48,12 @@ app.use(express.json());
 
     adminRouter.post("/signin",async function(req,res){
         const email =req.body.email;
-        const password=req.body.email;
+        const password=req.body.password;
         const firstName=req.body.firstName;
         const lastName=req.body.lastName;
         const admin =await adminModel.findOne({
             email:email,
-            password:password
+          
         })
     
         if(!admin){
@@ -63,7 +64,7 @@ app.use(express.json());
 
         const passwordMatch = await bcrypt.compare(password,admin.password)
         if(passwordMatch){
-            const token = jwt.sign({id:user._id.toString()},jwt_secrate)
+            const token = jwt.sign({id:admin._id.toString()},jwt_secrate)
             res.json({
                 token:token
             })
@@ -74,8 +75,20 @@ app.use(express.json());
         }
         
     })
-    adminRouter.post("/",function(req,res){
-        res.send("User signup route");
+    adminRouter.post("/course",adminAuthmiddle ,async function(req,res){
+            const adminId=req.userId
+            const {title,description,imageUrl,creatorId}=req.body
+            const course = await courseModel.create({
+            title:title,
+            description:description,
+            imageUrl:imageUrl,
+            creatorId:adminId
+            })
+            res.json({
+                "msg":"course created",
+                "courseId":course._id
+            })
+
     }) 
 
     adminRouter.put("/",function(req,res){

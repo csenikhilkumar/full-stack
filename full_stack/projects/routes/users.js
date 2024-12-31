@@ -3,8 +3,8 @@ const {Router} = require("express")
 const UserRouter=Router()
 const jwt =require("jsonwebtoken")
 const {z} =require("zod")
-const users_jwt_secrate="helloiamuser"
 const {usersModel}=require("../database/db")
+const {users_jwt_secrate}=require("../config")
 const bcrypt  =require("bcrypt")
 
 UserRouter.post("/signup",async function(req,res){
