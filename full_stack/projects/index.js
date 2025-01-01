@@ -11,8 +11,7 @@ app.use("/api/v1/users",UserRouter)
 app.use("/api/v1/admin",adminRouter)
 app.use("/api/v1/course",courseRouter)
  async function Main(){
- await mongoose.connect("mongodb+srv://admin:7fegnJGsBAVLeCoh@cluster0.t9tqw.mongodb.net/cousera-app")
-
+ await mongoose.connect(process.env.MONGO_URL)
     app.listen(3000,function(){
     console.log("your server is runnig on port 3000")
 })
