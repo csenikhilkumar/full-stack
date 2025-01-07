@@ -3,7 +3,8 @@ const {Router} = require("express")
 const UserRouter=Router()
 const jwt =require("jsonwebtoken")
 const {z} =require("zod")
-const {usersModel}=require("../database/db")
+const {usersModel,purchagesModel,courseModel}=require("../database/db")
+const{userAuthmiddle}=require("../middlewares/user_auth")
 const {users_jwt_secrate}=require("../config")
 const bcrypt  =require("bcrypt")
 
@@ -68,8 +69,19 @@ UserRouter.post("/signin",async function(req,res){
     })
 
 
-UserRouter.get("/purchases",function(req,res){
-        res.send("User signup route");
+UserRouter.get("/purchases",userAuthmiddle,async function(req,res){
+        const userId=req.body.userId
+        const courses=await  purchagesModel.find({
+            userId:userId
+        })
+        const coursedata = await courseModel.find({
+            _id: { $in: courses.map(x => x.courseId) }
+          });
+          
+        res.json({
+            courses,
+            coursedata
+        })
     }) 
 
 module.exports={

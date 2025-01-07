@@ -1,3 +1,4 @@
+require('dotenv').config();
 const jwt_secrate =process.env.jwt_secrate
 const users_jwt_secrate=process.env.users_jwt_secrate
 

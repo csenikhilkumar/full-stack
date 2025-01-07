@@ -68,7 +68,7 @@ app.use(express.json());
             res.json({
                 token:token
             })
-        }
+        }  
         else{
             res.json({
                 "msg":"invalid credentiols because you are use wrong password"})
@@ -77,25 +77,47 @@ app.use(express.json());
     })
     adminRouter.post("/course",adminAuthmiddle ,async function(req,res){
             const adminId=req.userId
-            const {title,description,imageUrl,creatorId}=req.body
+            const {title,description,imageUrl,price,creatorId}=req.body
             const course = await courseModel.create({
             title:title,
             description:description,
             imageUrl:imageUrl,
+            price:price,
             creatorId:adminId
             })
             res.json({
                 "msg":"course created",
-                "courseId":course._id
+                courseId:course._id
             })
 
     }) 
 
-    adminRouter.put("/",function(req,res){
-        res.send("User signup route");
+    adminRouter.put("/course",adminAuthmiddle,async function(req,res){
+        const adminId=req.userId
+        const {title,description,imageUrl,price,courseId}=req.body
+        const course = await courseModel.updateOne({_id:courseId,creatorId:adminId},{
+        title:title,
+        description:description,
+        imageUrl:imageUrl,
+        price:price,
+        courseId:adminId
+        })
+        res.json({
+            "msg":"course has been updated",
+            "courseId":course._id
+        })
+
     }) 
-    adminRouter.get("/bulk",function(req,res){
-        res.send("User signup route");
+   
+    adminRouter.get("/course/bulk",function(req,res){
+        const adminId =req.userId;
+        const courses = adminModel.findOne({
+            creatorId:adminId
+        })
+        res.json({
+            "msg":"course updated",
+            courses:courses.id
+        })
     }) 
 
 module.exports={
