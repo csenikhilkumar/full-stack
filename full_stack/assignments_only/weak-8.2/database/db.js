@@ -3,12 +3,16 @@ const mongoose =require("mongoose")
 const Schema =mongoose.Schema
 // const ObjectId =mongoose.Types.ObjectId
 const userSchema =new Schema({
-    email:{type:String,require:true,unique:true},
-    password:String
+    userName:{type:String,require:true,unique:true},
+    password:String,
+    purchagedCourses:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"course"
+    }]
 })
 
 const adminSchema = new Schema ({
-    email:{type:String,require:true,unique:true},
+    userName:{type:String,require:true,unique:true},
     password:String
 })
 const courseSchema =new Schema({
