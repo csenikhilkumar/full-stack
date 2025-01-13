@@ -8,20 +8,20 @@ const adminrouter = Router();
 
 adminrouter.post("/signup",async function(req,res){
 const requirebody = z.object({
-    userName:z.string().min(2).max(20),
+    username:z.string().min(2).max(20),
     password:z.string()
 })
 const safeparsewithsuccess = await requirebody.safeParse(req.body)
  if (!safeparsewithsuccess){
 res.json({
     "massage":"you are using wrong cridentials please write right cred.."
-})
+}) 
 }
-const userName = req.body.userName;
+const username = req.body.username;
 const password =req.body.password
 const hashedPassword = await bcrypt.hash(password,17)
 const user = await admin.create({
-    userName:userName,
+    username:username,
     password:hashedPassword
 })
 res.json({
@@ -30,7 +30,7 @@ res.json({
 })
 
 adminrouter.post("/course",adminAuthmiddel,async function(req,res){
-const adminId=req.id
+const adminId=req.adminId
 const title = req.body.title
 const description = req.body.description
 const price = req.body.price
@@ -43,10 +43,20 @@ const courses = course.create({
 })
 res.json({
     "msg":"course succesfully created",
-    courseId:adminId
+    courseId:courses._id
 })
 })
 
+adminrouter.get("/allcourse",adminAuthmiddel,async function (req,res){
+const adminId=req.adminId
+const username =req.body.username
+const allCourses= await course.find({})
+res.json({
+    // allCourses:allCourses,
+    allCourses
+})
+})
+ 
 module.exports={
     adminrouter:adminrouter
 }

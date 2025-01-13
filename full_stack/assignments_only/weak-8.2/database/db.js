@@ -3,7 +3,7 @@ const mongoose =require("mongoose")
 const Schema =mongoose.Schema
 // const ObjectId =mongoose.Types.ObjectId
 const userSchema =new Schema({
-    userName:{type:String,require:true,unique:true},
+    username:{type:String,require:true,unique:true},
     password:String,
     purchagedCourses:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -12,7 +12,7 @@ const userSchema =new Schema({
 })
 
 const adminSchema = new Schema ({
-    userName:{type:String,require:true,unique:true},
+    username:{type:String,require:true,unique:true},
     password:String
 })
 const courseSchema =new Schema({
@@ -26,7 +26,7 @@ const courseSchema =new Schema({
 
 
 
-const user = mongoose.model("user",userSchema)
+const user = mongoose.model("user",userSchema) 
 const admin = mongoose.model("admin",adminSchema)
 const course = mongoose.model("course",courseSchema)
  

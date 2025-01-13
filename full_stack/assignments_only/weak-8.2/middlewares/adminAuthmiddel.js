@@ -3,14 +3,14 @@ const {admin}=require("../database/db")
 
  async function adminAuthmiddel(req,res,next){
     console.log(req.headers)
-    const userName= req.headers.userName
+    const username= req.headers.username
     // const password =req.headers.password
     const checkadmin = await admin.find({
-        userName:userName 
+        username:username 
     })
 
     if (checkadmin){
-      req.userId = res._id
+      req.adminId = res.id
       next()
     }
     else{
