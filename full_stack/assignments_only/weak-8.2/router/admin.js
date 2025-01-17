@@ -4,6 +4,8 @@ const {admin, course}=require("../database/db")
 const { adminAuthmiddel } = require("../middlewares/adminAuthmiddel");
 const bcrypt =require("bcrypt")
 const adminrouter = Router();
+const {admin_secrate}=require("../config")
+const jwt = require("jsonwebtoken")
 
 
 adminrouter.post("/signup",async function(req,res){
@@ -28,6 +30,30 @@ res.json({
     "msg":"you are succesfully signed_up"
 })
 })
+
+
+adminrouter.post("/signin",async function(req,res){
+    const username = req.body.username;
+    const password =req.body.password
+    const check= await admin.findOne({
+        username:username
+    })
+    if(!check){
+        res.json({
+            "msg":"username not valid please try again "
+        })
+    }
+
+    const passwordMatch =await bcrypt.compare(password,check.password)
+    if(passwordMatch){
+        // const token=jwt.sign({id:usercheck._id.toString()},user_secrate)
+        const token = jwt.sign({id:check._id.toString()},admin_secrate)
+        res.json({
+        token:token
+        })
+    }
+})
+
 
 adminrouter.post("/course",adminAuthmiddel,async function(req,res){
 const adminId=req.adminId

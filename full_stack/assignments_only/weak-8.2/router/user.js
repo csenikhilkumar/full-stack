@@ -5,6 +5,8 @@ const z = require("zod")
 const bcrypt = require("bcrypt")
 const mongoose =require("mongoose")
 const {userAuthmiddle}=require("../middlewares/userAuthmiddle")
+const{user_secrate}=require("../config")
+const jwt=require("jsonwebtoken")
 
 
 
@@ -30,15 +32,38 @@ userrouter.post("/signup",async function(req,res){
         "msg":"you are succesfully signed_up"   
     })
     })
+    userrouter.post("/signin",async function(req,res){
+        const username = req.body.username;
+        const password =req.body.password
+        const check= await user.findOne({
+            username:username
+        })
+        if(!check){
+            res.json({
+                "msg":"username not valid please try again "
+            })
+        }
 
+        const passwordMatch =await bcrypt.compare(password,check.password)
+        if(passwordMatch){
+            // const token=jwt.sign({id:usercheck._id.toString()},user_secrate)
+            const token = jwt.sign({id:check._id.toString()},user_secrate)
+            res.json({
+            token:token
+            })
+        }
+        else{
+            res.json({"msg":"you are using incorrect password please try again"})
+        }
+    })
 
+    
      userrouter.get("/allcourses",userAuthmiddle,async function(req,res){
         const allcourese=await course.find({})
         res.json({
             allcourese:allcourese 
         })
     })
-  
 
     userrouter.put("/allcourses/:courseId",userAuthmiddle,async function(req,res){
                 const courseId =req.params.courseId;
