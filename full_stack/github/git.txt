@@ -1,0 +1,41 @@
+what is git ?
+ans :- git is nothing but it is version controle system.
+
+what is version constrole system ?
+a system that keeps track of files or projects 
+it allows you to revert selected files to a privious state , revet the entire project a privious state , compare changes over time, see who last modified somrthing so that we can know what might be causing a problem , or what is the issue , made it, and when with the details.
+
+types of version controle system 
+1.centerlized 
+2.distributed
+
+
+why git ?
+git is free.
+it is open source.
+is it scalable.
+super fast .
+cheap branching and merging.
+
+
+
+what is github?
+github is a web-based hosting service for git repositories.
+you can use git without github,but you cannot use github without git .
+
+            git                           github
+    used for version controle.        usedd for hosting git repositories.
+    installed locally on computer.    cloud based service.
+    tracks changes made to files.     Provides a web interface to view file changes.
+
+
+local repositories:-
+                      every vcs tools provides a prvate workplace as a working copy . developers make changes in their private workplace and afetr commit , there changes become a part of the repository.git takes it one step further by providing them a prvate copy of the whole repository.users can commit many operation with this repository such as add file , remove file, rename file, move file, commite changes from a repository
+
+working directory and staging area or index :-
+                                              an intemidiate area where commit can be formatted and reviewed completing the commte.
+push:-
+       send a change to anotheer repository(may require permission)
+
+pull:- 
+       grab a change from a repository.
