@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 
-export const Input = function ({refe,onDone,onBack}){
+export const Input = function ({ref,onDone,onBack}){
     const [inputVal,setInputVal]= useState("")
 
     
     return(<>
     <div>
-        <input type="text" className="bg-[#183e6b] w-10 h-13 rounded-2xl m-2.5 px-4 text-white outline-none" value={inputVal} ref={refe} onKeyUp={(e)=>{
+        <input type="text" className="bg-[#183e6b] w-10 h-13 rounded-2xl m-2.5 px-4 text-white outline-none" value={inputVal} ref={ref} onKeyUp={(e)=>{
             if(e.key=="Backspace"){
+                setInputVal("")
                 onBack()
                 //go back logic 
               }

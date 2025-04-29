@@ -7,12 +7,10 @@ import { Button } from './components/Button'
 
 function App() {
   const [count,setCount]= useState("")
+  const Number = 10
   const [disabled,setDisabled] = useState(true)
-  const ref1 = useRef()
-  const ref2 = useRef()
-  const ref3 = useRef()
-  const ref4 = useRef()
-  const ref5 = useRef()
+  const ref = useRef(Array(Number).fill(0))
+  
   
   
   
@@ -20,11 +18,23 @@ function App() {
     <><div className="h-screen bg-[#012b5a] flex flex-col justify-center items-center">
       <div className=' justify-center items-center'>
       <div className='flex justify-center items-center h-60'>
-       <Input refe={ref1} onDone={()=>{ref2.current.focus()}} onBack={()=>{setDisabled(true)}}></Input>
-       <Input refe={ref2} onDone={()=>{ref3.current.focus()}} onBack={()=>{ref1.current.focus()}}></Input>
-       <Input refe={ref3} onDone={()=>{ref4.current.focus()}} onBack={()=>{ref2.current.focus()}}></Input>
-       <Input refe={ref4} onDone={()=>{ref5.current.focus()}} onBack={()=>{ref3.current.focus()}}></Input>
-       <Input refe={ref5} onDone={()=>{setDisabled(false)}}   onBack={()=>{ref4.current.focus()}}></Input>
+      {Array(Number).fill(1).map((x, Index) => (
+  <Input
+    key={Index}
+    ref={el => (ref.current[Index] = el)}
+    
+    onDone={() => {
+      if (Index + 1 >= Number) return;
+      ref.current[Index + 1].focus();
+    }}
+    onBack={() => {
+      if (Index === 0) return;
+      ref.current[Index - 1].focus();
+    }}
+  />
+))}
+
+       
        
        </div>
        
