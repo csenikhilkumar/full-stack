@@ -16,7 +16,7 @@ function App() {
         }}
       >
        
-        <div className="bg-white w-100 h-230 border-r border-gray-300 ml-8">
+        <div className="bg-white w-100 h-222 border-r border-gray-300 ml-8 mt-8">
           <div className="flex justify-between">
           <div className="flex bg-blue-950 w-33 rounded-2xl m-4 "> 
             <img className="w-10 rounded-4xl " src="https://imgs.search.brave.com/Z3O-xPzfodswwean2INdkqluPGPLFwEtsVn5O3xo89s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnNz/dGF0aWMubmV0L3py/TUJSLnBuZw" alt="" />
