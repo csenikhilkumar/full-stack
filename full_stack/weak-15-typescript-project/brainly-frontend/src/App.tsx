@@ -1,21 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Button } from './components/Button'
+import { DashBoard } from "./Pages/dashBoardPage";
+import "./App.css";
+import { SignUp } from "./Pages/SignUp";
+import { SignIn } from "./Pages/SignIn";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <Button variant='primary' text='add content' ></Button>
-        <Button variant='secondary' text='share' ></Button>
-      </div>
-    </>
-  )
+export default function  App(){
+  return <>
+  <BrowserRouter>
+      <Routes>
+          <Route path="/signUp" element={<SignUp /> }></Route>
+          <Route path="/signIn" element={<SignIn /> }></Route>
+          <Route path="/DashBoard" element={<DashBoard /> }></Route>
+      </Routes>
+  </BrowserRouter>
+  
+  </>
 }
-
-export default App

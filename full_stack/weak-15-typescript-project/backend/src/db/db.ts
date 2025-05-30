@@ -14,6 +14,7 @@ const userData = new Schema({
     
     link:String,
     title:String,
+    type:String,
     tags:[{type:mongoose.Types.ObjectId,ref:"tag"}],
     UserId:{type:mongoose.Types.ObjectId,ref:"User",required:true},
     

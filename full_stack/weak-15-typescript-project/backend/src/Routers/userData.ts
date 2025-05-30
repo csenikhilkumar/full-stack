@@ -6,7 +6,9 @@ import { LinkSchema, user, UserData } from "../db/db";
 import { title } from "process";
 import { appendFile } from "fs";
 import { Random } from "../utils";
+import { any } from "zod";
 const UserDataRouter = express.Router();
+
 
 declare global {
   namespace Express {
@@ -26,14 +28,12 @@ UserDataRouter.post("/data",userDataAuthMiddle,async function (req: any, res: an
 
     const userDataCreated = await UserData.create({
       link,
+      type:req.body.type,
       title,
-      
       UserId: req.userId,
       tags: [],
     });
-    return res
-      .status(400)
-      .json({ userData: { userDataCreated: userDataCreated } });
+    return res.json({ userData: { userDataCreated: userDataCreated } });
   }
 );
 
@@ -76,48 +76,62 @@ UserDataRouter.delete("/delete",userDataAuthMiddle,async function (req: any, res
 // from 'express', your models, and utility functions.
 // Ensure your 'src/types/express.d.ts' or 'global.d.ts' is set up as discussed.
 
-UserDataRouter.post("/brain/share", userDataAuthMiddle, async (req: Request, res: Response):Promise<void>=> { // Explicitly type req, res
-    const { share } = req.body;
+interface AuthenticatedRequest extends Request {
+  userId?: string;
+}
 
-    if (share) {
-        // --- Path 1: share is true ---
+UserDataRouter.post("/brain/share", userDataAuthMiddle, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+        const { share } = req.body;
 
-        // It's good practice to check if userId exists after middleware
+        // Check if userId exists after middleware (should always be present after auth)
         if (!req.userId) {
-            console.error('Error: req.userId is missing in /brain/share (share=true path).');
-             res.status(401).json({ message: "Authentication required." }); // Must return here
+            console.error('Error: req.userId is missing in /brain/share endpoint.');
+            res.status(401).json({ message: "Authentication required." });
+            return; // IMPORTANT: Must return to prevent further execution
         }
 
-        const existingLink = await LinkSchema.findOne({ UserId: req.userId });
+        if (share) {
+            // --- Path 1: share is true (create/get sharing link) ---
+            
+            const existingLink = await LinkSchema.findOne({ userId: req.userId });
 
-        if (existingLink) {
-            // --- Path 1a: Link already exists ---
-             res.json({ hash: existingLink.hash }); // IMPORTANT: 'return' here
+            if (existingLink) {
+                // --- Path 1a: Link already exists ---
+                res.json({ hash: existingLink.hash });
+                return; // IMPORTANT: Return to prevent further execution
+            }
+
+            // --- Path 1b: Link does not exist, create new ---
+            const hash = Random(10);
+            
+            // FIX: Use lowercase 'userId' to match schema
+            await LinkSchema.create({ 
+                hash, 
+                userId: req.userId // Changed from UserId to userId
+            });
+            
+            res.json({ hash });
+            return; // IMPORTANT: Return to prevent further execution
+            
+        } else {
+            // --- Path 2: share is false (remove sharing link) ---
+            
+            const deleteResult = await LinkSchema.deleteOne({ userId: req.userId });
+            
+            if (deleteResult.deletedCount > 0) {
+                res.json({ message: "Sharing link removed successfully" });
+            } else {
+                res.json({ message: "No sharing link found to remove" });
+            }
+            return; // IMPORTANT: Return to prevent further execution
         }
-
-        // --- Path 1b: Link does not exist, create new ---
-        const hash = Random(10);
-        await LinkSchema.create({  hash });
-       res.json({ hash }); // IMPORTANT: 'return' here
-    } else {
-        // --- Path 2: share is false (remove functionality) ---
-
-        // It's good practice to check if userId exists after middleware
-        if (!req.userId) {
-            console.error('Error: req.userId is missing in /brain/share (share=false path).');
-             res.status(401).json({ message: "Authentication required." }); // Must return here
-        }
-
-        try {
-            await LinkSchema.deleteOne({ UserId: req.userId });
-             res.json({ message: "Removed link" }); // IMPORTANT: 'return' here
-        } catch (error) {
-            console.error("Error removing link:", error);
-            // Even in a catch block for an async function, you need to return a response
-             res.status(500).json({ message: "Internal server error during link removal." }); // IMPORTANT: 'return' here
-        }
+        
+    } catch (error) {
+        console.error("Error in /brain/share endpoint:", error);
+        res.status(500).json({ message: "Internal server error" });
+        return; // IMPORTANT: Return even in catch block
     }
-    // No implicit return if all paths above properly use 'return'
 });
 
 

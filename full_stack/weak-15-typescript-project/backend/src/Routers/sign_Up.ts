@@ -1,12 +1,13 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 const signUpRouter = express.Router();
-import { user } from "../db/db"; // ✅ Correct
+import { user } from "../db/db"; 
 import zod from "zod";
+const app = express()
+import cors from "cors"
 
-signUpRouter.post("/signUp", async function (req: any, res: any) {
-  try {
-    const verifyAllFields = await zod.object({
+app.use(cors())
+const verifyAllFields = zod.object({
       email: zod
         .string()
         .min(4)
@@ -16,8 +17,14 @@ signUpRouter.post("/signUp", async function (req: any, res: any) {
       password: zod.string().min(4).max(100),
     });
 
-    const safeParse = await verifyAllFields.safeParse(req.body);
+signUpRouter.post("/signUp", async function (req: any, res: any) {
+  try {
+   
+
+    const safeParse =verifyAllFields.safeParse(req.body);
     if (!safeParse.success) {
+      console.log(safeParse.error);
+
       return res.status(404).json({ message: "invalid cridentials " });
     }
     const name = req.body.name;
@@ -44,7 +51,8 @@ signUpRouter.post("/signUp", async function (req: any, res: any) {
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Internal server error " });
+    return res.status(500).json({ error: "Internal server error "
+    });
   }
 });
 

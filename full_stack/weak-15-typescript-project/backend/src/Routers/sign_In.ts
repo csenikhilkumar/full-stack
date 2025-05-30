@@ -9,7 +9,9 @@ import jwt from "jsonwebtoken"
 import { error } from "node:console";
 const SignInRouter = express.Router()
 const secretKey:any = process.env.JWT_SECRET
-
+import cors from "cors"
+const app = express()
+app.use(cors())
 
 
  SignInRouter.post("/signIn",async function (req:any,res:any){
@@ -30,7 +32,7 @@ const secretKey:any = process.env.JWT_SECRET
         const passwordComapre = await bcrypt.compare(password,findUser.password)
         if(passwordComapre){
             const token = await jwt.sign({id:findUser._id},secretKey)
-            return res.status(400).json({message:"user succesfully logged in ",
+            return res.status(200).json({message:"user succesfully logged in ",
                                         token:token
             })
         }

@@ -1,19 +1,6 @@
-export interface plusIconprops {
-    "size":"sm" | "lg" | "md"
-}
+export function PulsIcon(){
+    return<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
 
-
-export const InconSize = { 
-    "sm":"size-2",
-    "lg":"size-6  ",
-    "md":"size-4"
-    
-}
-
-
-export function PlusIcon(props:plusIconprops){
-    return(<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className={InconSize[props.size]}>
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
-      )
 }
