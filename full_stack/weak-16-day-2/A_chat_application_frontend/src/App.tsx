@@ -9,7 +9,7 @@ function App() {
   
    const [messages,setMessages]= useState(["hii there","hello"])
    const InputRef = useRef<HTMLInputElement>(null);
-   const wsRef = useRef()
+   const wsRef = useRef();
 
 
    useEffect(()=>{
