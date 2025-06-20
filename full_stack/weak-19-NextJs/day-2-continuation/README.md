@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Next.js Full-Stack Authentication Project
 
-## Getting Started
+This is a full-stack Next.js project with custom API routes, Prisma ORM (with a custom generated client path), and secure user authentication using `bcrypt` password hashing.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📦 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- ⚛️ **Next.js App Router**
+- 🔐 **bcrypt** for password salting and hashing
+- 🌿 **Prisma ORM** (client generated to `generated/prisma`)
+- 🛢️ PostgreSQL (or any other Prisma-supported database)
+- 🧠 Express-like API route handlers inside `app/api`
+- 💅 TailwindCSS for styling
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure (Highlights)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+/app
+└── /api
+└── /v1
+└── /signUp
+└── route.ts // Sign up API logic here
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+/components
+└── input.tsx // Custom input component
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+/prisma
+└── schema.prisma // Prisma schema file
 
-## Deploy on Vercel
+/generated/prisma
+└── index.d.ts + client.js // Prisma client output (custom)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+## 🔐 Authentication Flow (Sign Up)
+
+1. **Frontend** collects `username`, `email`, and `password` using custom `ref`-based inputs.
+2. On form submit, a POST request is sent to `/api/v1/signUp`.
+3. In the backend (`route.ts`):
+   - The password is validated.
+   - It's hashed using `bcrypt.hash(password, 10)`.
+   - The user is stored in the database using Prisma.
+
+---
+
+## 🔧 Prisma Client Initialization
+
+To avoid creating multiple database connections during development, a singleton pattern using `globalThis.prisma` is used:
+
+```ts
+const prisma = globalThis.prisma ?? new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
+
+
+
+🛠️ Commands
+
+Install dependencies
+<pre>```npm install```</pre>
+
+Generate Prisma Client
+<pre>```npx prisma generate```</pre>
+
+Run Development Server
+<pre>```npm run dev```</pre>
+
+🔒 Password Hashing (bcrypt)
+Passwords are hashed securely before saving to the DB:
+
+
+<pre>```const hashedPassword = await bcrypt.hash(password, 10);```<pre>
+
+Verification is done during login using:
+<pre>```const isMatch = await bcrypt.compare(plainPassword, hashedPassword);```</pre>
+✅ Todo (Future)
+ Add Sign-In API
+
+ Add JWT or session-based authentication
+
+ Add protected routes and user dashboard
+
+ Add form validation and error messages
+
+ Add full TypeScript type safety
